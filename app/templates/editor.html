@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Editor{% endblock %}
+
+{% block body %}
+    <div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success mt-2 font-monospace" role="alert">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="mt-2 text-center">
+            <img src="data:image/png;base64, {{ img }}" class="img-thumbnail">
+            <a href="/donwload-img"><img src="{{ url_for("static", filename="download.png") }}" class="float-end" style="max-width: 30px; max-height: 30px;"></a>
+        </div>
+
+        <div class="accordion mt-2" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  <b>Border & Text</b>
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
+                <div class="accordion-body">
+                    <div>
+                        <div class="overflow-auto p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <div class="float-start mt-2 mb-2 font-monospace font-weight-bold">
+                                    <span class="me-2">
+                                        <label for="color_picker">Color:</label>
+                                        <input class="btn btn-light" type="color" name="color_picker" id="color_picker">
+                                    </span>
+                                    <span>
+                                        <label for="border_width">Width:</label>
+                                        <input type="number" name="border_width" id="border_width" min="1" max="50" required>
+                                    </span>
+                                </div>
+            
+                                <input class="float-end mt-2 btn btn-dark" type="submit" value="Add Border">
+                            </form>
+                        </div>
+            
+                        <div class="overflow-auto p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <div class="float-start mt-2 mb-2 font-monospace font-weight-bold">
+                                    <span class="me-2">
+                                        <label for="text_picker">Text:</label>
+                                        <input type="text" name="text_picker" id="text_picker" required>
+                                    </span>
+            
+                                    <span>
+                                        <label for="color_picker_2">Text Colour:</label>
+                                        <input class="btn btn-light" type="color" name="color_picker_2" id="color_picker_2">
+                                    </span>
+                                </div>
+            
+                                <input class="float-end mt-2 btn btn-dark" type="submit" value="Add Caption">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed font-monospace" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <b>Rotation, Blur, Contrast & Brightness</b>
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+                <div class="accordion-body">
+                    <div>
+                        <div class="p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <input class="form-range" type="range" name="rotate_slider" id="rotate_slider" min="0" max="360" step="90" value="1" oninput="this.nextElementSibling.value = this.value">
+                                <input class="mt-2 btn btn-dark" type="submit" value="Rotate">
+                            </form>
+                        </div>
+            
+                        <div class="p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <input class="form-range" type="range" name="blur_slider" id="blur_slider" min="0" max="20" step="1" value="1" oninput="this.nextElementSibling.value = this.value">
+                                <input class="mt-2 btn btn-dark" type="submit" value="Blur">
+                            </form>
+                        </div>
+            
+                        <div class="p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <input class="form-range" type="range" name="contrast_slider" id="contrast_slider" min="1" max="6.5" step="0.1" value="1" oninput="this.nextElementSibling.value = this.value">
+                                <input class="mt-2 btn btn-dark" type="submit" value="Contrast">
+                            </form>
+                        </div>
+            
+                        <div class="p-2 mb-2 mt-2 border border-2 border-dark rounded">
+                            <form action="/editor" method="post">
+                                <input class="form-range" type="range" name="bright_slider" id="bright_slider" min="1" max="4.5" step="0.1" value="1" oninput="this.nextElementSibling.value = this.value">
+                                <input class="mt-2 btn btn-dark" type="submit" value="Brightness">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        <div class="overflow-auto mt-2">
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="black_and_white_btn" id="black_and_white_btn" value="Black and White filter">
+                </form>
+            </div>
+
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="smooth_btn" id="smooth_btn" value="Smooth Image">
+                </form>
+            </div>
+
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="sharpen_btn" id="sharpen_btn" value="Sharp Image">
+                </form>
+            </div>
+
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="flip_btn" id="flip_btn" value="Flip Image">
+                </form>
+            </div>
+
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="edge_detec_btn" id="edge_detec_btn" value="Edge Detection">
+                </form>
+            </div>
+
+            <div class="me-2 float-start">
+                <form action="/editor" method="post">
+                    <input class="btn btn-dark" type="submit" name="emboss_btn" id="emboss_btn" value="Emboss">
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a class="btn btn-success" href="/save">SAVE</a>
+            <p class="fw-lighter fs-6">*please don't forget to save your project</p>
+        </div>
+    </div>
+{% endblock %}
