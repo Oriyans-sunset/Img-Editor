@@ -111,7 +111,7 @@ def add_caption(pic, color, text):
     img_obj = Image.open(io.BytesIO(pic))
 
     border = (40, 40, 40, 50)
-    border_img = ImageOps.expand(img_obj, border=border, fill=(255, 255, 255))
+    border_img = ImageOps.expand(img_obj, border=border, fill="white")
 
     W, H = border_img.size
 
