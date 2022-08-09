@@ -12,10 +12,14 @@ from app import service
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        email_list = [t for t in db.session.query(Users.email).all() if session["email"] in t]
-        
-        if session.get("email") is None or session["email"] != email_list[0][0]:
+        if session.get("email") is None:
             return redirect('/login', code=302)
+
+        email_list = [t for t in db.session.query(Users.email).all() if session["email"] in t]
+
+        if session["email"] != email_list[0][0]:
+            return redirect('/login', code=302)
+        
         return f(*args, **kwargs)
     return decorated_function
 
