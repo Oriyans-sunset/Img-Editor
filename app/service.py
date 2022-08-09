@@ -116,7 +116,7 @@ def add_caption(pic, color, text):
     W, H = border_img.size
 
     d1 = ImageDraw.Draw(border_img)
-    myFont = ImageFont.truetype("app/static/permanent.marker.regular.ttf", 40)
+    myFont = ImageFont.truetype("/app/static/permanent.marker.regular.ttf", 40)
     d1.text((10, H/1.09), text, font=myFont, fill=color)
 
     data = io.BytesIO()
